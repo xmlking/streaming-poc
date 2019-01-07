@@ -1,0 +1,44 @@
+server:
+  port: ${PORT:8081}
+logging:
+  level:
+#    root: debug
+#    org.sumo.klogs: DEBUG
+    org.apache.kafka.streams.processor.internals: WARN
+
+spring:
+  application:
+    name: work-count
+
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: words
+          group: work-count
+          consumer:
+            headerMode: raw
+            #startOffset: earliest
+            #resetOffsets: true
+        output:
+          contentType: application/json
+          destination: counts
+          producer:
+            headerMode: raw
+            #partitioned: true
+            #partition-key-expression: headers['partitionKey']
+            #partition-count: 12
+
+      kstream:
+        timeWindow:
+          length: 5000
+          advanceBy: 0
+        binder:
+          brokers: ${KAFKA_BROKERS:127.0.0.1}
+          zkNodes: ${ZOOKEEPER_NODES:127.0.0.1}
+          configuration:
+            commit.interval.ms: 1000
+            key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            default.deserialization.exception.handler: org.apache.kafka.streams.errors.LogAndContinueExceptionHandler
+            application.id: work-count

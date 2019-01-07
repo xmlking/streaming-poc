@@ -1,0 +1,31 @@
+server:
+  port: ${PORT:8084}
+logging:
+  level:
+#    root: debug
+#    org.apache.kafka.streams.processor.internals: WARN
+#    org.sumo.klogs: DEBUG
+spring:
+  application:
+    name: raw-count
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: raw-count
+      auto-offset-reset: earliest
+
+schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
+app:
+  kafka:
+    topic:
+      input: words
+      output: counts
+---
+spring:
+  profiles: docker
+
+spring.kafka.bootstrap-servers: kafka
+schema.registry.url: http://schemaregistry:8081
+
+

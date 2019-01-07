@@ -1,0 +1,49 @@
+server:
+  port: ${PORT:8081}
+logging:
+  level:
+#    root: debug
+#    org.sumo.klogs: DEBUG
+    org.apache.kafka.streams.processor.internals: WARN
+
+spring:
+  application:
+    name: classifier
+
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: words
+          group: classifier
+          consumer:
+            headerMode: raw
+        output1:
+          contentType: application/json
+          destination: ecount
+          producer:
+            headerMode: raw
+        output2:
+          contentType: application/json
+          destination: fcount
+          producer:
+            headerMode: raw
+        output3:
+          contentType: application/json
+          destination: scount
+          producer:
+            headerMode: raw
+
+      kstream:
+        timeWindow:
+          length: 5000
+          advanceBy: 0
+        binder:
+          brokers: ${KAFKA_BROKERS:127.0.0.1}
+          zkNodes: ${ZOOKEEPER_NODES:127.0.0.1}
+          configuration:
+            commit.interval.ms: 1000
+            key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            default.deserialization.exception.handler: org.apache.kafka.streams.errors.LogAndContinueExceptionHandler
+            application.id: classifier

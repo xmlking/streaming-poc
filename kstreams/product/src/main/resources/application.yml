@@ -1,0 +1,23 @@
+spring.cloud.stream.kstream:
+  binder.brokers: 127.0.0.1
+  binder.zkNodes: 127.0.0.1
+  timeWindow.length: 5000
+  timeWindow.advanceBy: 0
+  binder.configuration:
+    commit.interval.ms: 1000
+    key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+    value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+  bindings.output.producer:
+    keySerde: org.apache.kafka.common.serialization.Serdes$IntegerSerde
+
+spring.cloud.stream.bindings.input:
+  destination: products
+  group: product
+  consumer:
+    headerMode: raw
+
+spring.cloud.stream.bindings.output:
+  destination: product-counts
+  contentType: application/json
+  producer:
+    headerMode: raw
