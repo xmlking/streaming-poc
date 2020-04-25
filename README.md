@@ -145,6 +145,7 @@ gradle build --refresh-dependencies
 ```
 
 ### Reference 
+* [try kotlin avro serializer: avro4k-kafka-serializer](https://github.com/thake/avro4k-kafka-serializer)
 * https://bigdatagurus.wordpress.com/2017/03/01/how-to-start-spark-cluster-in-minutes/
 * https://zeppelin.apache.org/docs/0.7.2/install/cdh.html
 * https://spark.apache.org/examples.html
